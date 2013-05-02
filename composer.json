@@ -1,5 +1,5 @@
 {
-    "name": "libraries/composer-facebook",
+    "name": "thomaswelton/composer-facebook",
     "type": "codeigniter-library",
     "require": {
         "composer/installers": "*",
