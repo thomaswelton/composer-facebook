@@ -47,6 +47,16 @@ class CI_Facebook extends Facebook {
 		}
 	}
 
+	/**
+	 * Checks to see if the user has "liked" the page by checking a signed request
+	 * @return boolean true if liked, flase if we are not sure if the user liked the page
+	 */
+	public function hasLiked(){
+		$signedRequest = $this->getSignedRequest();
+		
+		return !is_null($signedRequest) && array_key_exists('page', $signedRequest) && $signedRequest['page']['liked'];
+	}
+
 	public function jsRedirect($location){
 		echo '<script type="text/javascript">';
 		echo "window.parent.location = '{$location}'";
@@ -87,38 +97,5 @@ class CI_Facebook extends Facebook {
 			}
 		}
 		return $html;
-	}
-
-	public function base64_url_decode($input) {
-	  return base64_decode(strtr($input, '-_', '+/'));
-	}
-
-	//Parse the signed request if found to find the correct url to show
-	public function parse_signed_request($signed_request) {
-		list($encoded_sig, $payload) = explode('.', $signed_request, 2); 
-
-		// decode the data
-		$sig = $this->base64_url_decode($encoded_sig);
-		$data = json_decode($this->base64_url_decode($payload), true);
-
-		if (strtoupper($data['algorithm']) !== 'HMAC-SHA256') {
-			error_log('Unknown algorithm. Expected HMAC-SHA256');
-			return null;
-		}
-
-		// check sig
-		$expected_sig = hash_hmac('sha256', $payload, $this->myApiConfig['secret'], $raw = true);
-		if ($sig !== $expected_sig) {
-			error_log('Bad Signed JSON signature! when decoding signed request');
-			return NULL;
-		}
-		return $data;
-	}
-
-	public function get_signed_request() {
-		if (isset($_REQUEST['signed_request'])) {
-			return $this->parse_signed_request($_REQUEST['signed_request']);
-		}
-		return false;
 	}
 }
