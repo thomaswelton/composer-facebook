@@ -1,6 +1,6 @@
 {
     "name": "thomaswelton/composer-facebook",
-    "type": "cakephp-library",
+    "type": "codeigniter-library",
     "require": {
         "composer/installers": "*",
     	"facebook/php-sdk": "3.2.*"
