@@ -83,7 +83,7 @@ class CI_Facebook extends Facebook {
 		$html = '';
 		foreach(self::$ogTags as $key => $value){
 			if(trim($value) != ''){
-				$html .= '<meta property="'.$key.'" content="'.htmlspecialchars($value).'">'."\n\t";
+				$html .= '<meta property="'.$key.'" content="'.addslashes($value).'">'."\n\t";
 			}
 		}
 		return $html;
