@@ -16,6 +16,17 @@ class CI_Facebook extends Facebook {
 			return;
 		}
 
+		$this->myApiConfig = array_merge($this->myApiConfig, $config);
+		parent::__construct($this->myApiConfig);
+
+
+		//If enabled in the config force the aplication to redirect to the canvas
+		if(array_key_exists('canvasRedirect', $config) && $config['canvasRedirect']){
+			if(!array_key_exists('HTTP_REFERER', $_SERVER)){
+				redirect($this->getCanvasUrl(), 'refresh');
+			}
+		}
+
 		$openGraph = array(
 			'og:title' => '',
 			'og:image' => '',
@@ -25,26 +36,7 @@ class CI_Facebook extends Facebook {
 			'og:description' => ''
 		);
 
-		if(array_key_exists('graph',$config) && is_array($config['graph'])){
-			$openGraph = array_merge($openGraph,$config['graph']);
-		}
-
 		$this->setOpenGraphTags($openGraph);
-
-		$this->myApiConfig = array_merge($this->myApiConfig, $config);
-		parent::__construct($this->myApiConfig);
-
-
-		$CI = get_instance();
-		//Is there a myapi redirect we need to act on
-		if(property_exists($CI, 'session')){
-			$redirect = $CI->session->userdata('myapi_redirect');
-
-			if($redirect){
-				$CI->session->unset_userdata('myapi_redirect');
-				redirect($redirect, 'refresh');
-			}
-		}
 	}
 
 	/**
