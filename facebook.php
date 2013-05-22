@@ -31,7 +31,7 @@ class CI_Facebook extends Facebook {
 			'og:title' => '',
 			'og:image' => '',
 			'og:type' => 'website',
-			'og:url' => base_url(),
+			'og:url' => current_url(),
 			'fb:app_id' => $config['appId'],
 			'og:description' => ''
 		);
