@@ -28,13 +28,14 @@ class CI_Facebook extends Facebook {
 		}
 
 		$openGraph = array(
-			'og:title' => '',
-			'og:image' => '',
 			'og:type' => 'website',
 			'og:url' => current_url(),
-			'fb:app_id' => $config['appId'],
-			'og:description' => ''
+			'fb:app_id' => $config['appId']
 		);
+
+		if(array_key_exists('graph',$config) && is_array($config['graph'])){
+			$openGraph = array_merge($openGraph,$config['graph']);
+		}
 
 		$this->setOpenGraphTags($openGraph);
 	}
