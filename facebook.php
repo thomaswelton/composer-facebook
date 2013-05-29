@@ -52,7 +52,11 @@ class CI_Facebook extends Facebook {
 
 		}else if(is_null($signedRequest) && $useSession){
 			// If not found return the signedRequest from the session
-			$signedRequest = $CI->session->userdata('signedRequest');
+			$sessionSigendRequest = $CI->session->userdata('signedRequest');
+
+			if($sessionSigendRequest){
+				return $sessionSigendRequest;
+			}
 		}
 
 		return $signedRequest;
