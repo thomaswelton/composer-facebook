@@ -40,6 +40,24 @@ class CI_Facebook extends Facebook {
 		$this->setOpenGraphTags($openGraph);
 	}
 
+	public function getSignedRequest($useSession = true){
+		$CI = get_instance();
+		$CI->load->library('session');
+		
+		$signedRequest = parent::getSignedRequest();
+
+		if(is_array($signedRequest)){
+			// Save the found sigednRequest to a session
+			$CI->session->set_userdata('signedRequest', $signedRequest);
+
+		}else if(is_null($signedRequest) && $useSession){
+			// If not found return the signedRequest from the session
+			$signedRequest = $CI->session->userdata('signedRequest');
+		}
+
+		return $signedRequest;
+	}
+
 	/**
 	 * Checks to see if the user has "liked" the page by checking a signed request
 	 * @return boolean true if liked, flase if we are not sure if the user liked the page
