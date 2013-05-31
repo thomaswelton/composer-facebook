@@ -64,12 +64,18 @@ class CI_Facebook extends Facebook {
 
 	/**
 	 * Checks to see if the user has "liked" the page by checking a signed request
-	 * @return boolean true if liked, flase if we are not sure if the user liked the page
+	 * @return int -1 don't know, 0 doesn't like, 1 liked
 	 */
 	public function hasLiked(){
 		$signedRequest = $this->getSignedRequest();
 		
-		return !is_null($signedRequest) && array_key_exists('page', $signedRequest) && $signedRequest['page']['liked'];
+		if(is_null($signedRequest) || !array_key_exists('page', $signedRequest)){
+			// We dont know
+			return -1;
+		}else{
+			// Return the value Facebook told us
+			return $signedRequest['page']['liked'];
+		}
 	}
 
 	public function jsRedirect($location){
