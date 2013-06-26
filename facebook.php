@@ -102,6 +102,16 @@ class CI_Facebook extends Facebook {
 		return null;
 	}
 
+	public function getShareUrl($data){
+		$shareUrl = 'https://www.facebook.com/dialog/feed';
+
+		$defaults = array(	'app_id' => $this->getAppId(), 
+							'redirect_uri' => site_url());
+
+		$shareParams = array_merge($defaults, $data);
+		return $shareUrl . '?' . http_build_query($shareParams);
+	}
+
 	public function getCanvasUrl($path = ''){
 		return (array_key_exists('namespace', $this->myApiConfig)) ? 'http://apps.facebook.com/'.$this->myApiConfig['namespace'].'/'.$path : null;
 	}
