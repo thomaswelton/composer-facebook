@@ -109,7 +109,7 @@ class CI_Facebook extends Facebook {
 							'redirect_uri' => site_url());
 
 		$shareParams = array_merge($defaults, $data);
-		return $shareUrl . '?' . http_build_query($shareParams);
+		return $shareUrl . '?' . str_replace('+', '%20', http_build_query($shareParams));
 	}
 
 	public function getCanvasUrl($path = ''){
