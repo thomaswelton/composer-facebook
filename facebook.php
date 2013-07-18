@@ -7,7 +7,8 @@ class CI_Facebook extends Facebook {
 	var $myApiConfig = array(
 		'cookie' => true,
 		'language_code' => 'en_GB',
-		'debug' => false
+		'debug' => false,
+		'canvasRedirect' => false
 	);
 
 	function __construct($config = null){
@@ -18,14 +19,6 @@ class CI_Facebook extends Facebook {
 
 		$this->myApiConfig = array_merge($this->myApiConfig, $config);
 		parent::__construct($this->myApiConfig);
-
-
-		//If enabled in the config force the aplication to redirect to the canvas
-		if(array_key_exists('canvasRedirect', $config) && $config['canvasRedirect']){
-			if(!array_key_exists('HTTP_REFERER', $_SERVER)){
-				redirect($this->getCanvasUrl(), 'refresh');
-			}
-		}
 
 		$openGraph = array(
 			'og:type' => 'website',
